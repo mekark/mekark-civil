@@ -119,7 +119,7 @@ export default function ConstructionHero() {
     };
 
     return (
-        <section className="relative overflow-hidden bg-black text-white">
+        <section id="home" className="relative overflow-hidden bg-black text-white">
             {/* BG */}
             <div className="absolute inset-0">
                 <Image

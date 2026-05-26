@@ -34,7 +34,7 @@ export default function AboutMekark() {
     ];
 
     return (
-        <section className="relative overflow-hidden bg-[#F7F7F8] py-20 lg:py-28">
+        <section id="about" className="relative overflow-hidden bg-[#F7F7F8] py-20 lg:py-28">
             <div className="mx-auto grid max-w-[1440px] grid-cols-1 items-center gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:px-20">
                 {/* LEFT IMAGE */}
                 <motion.div

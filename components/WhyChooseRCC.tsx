@@ -70,7 +70,7 @@ export default function WhyChooseRCC() {
   const [active, setActive] = useState(0);
 
   return (
-    <section className="relative bg-[#F7F7F8] py-20 lg:py-28">
+    <section  id="why-choose-rcc" className="relative bg-[#F7F7F8] py-20 lg:py-28">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-20">
         {/* TOP */}
         <div className="grid gap-10 lg:grid-cols-[1fr_420px]">

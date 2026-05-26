@@ -10,10 +10,12 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FaQSection from "@/components/FAQSection";
 import CTASection from "@/components/CTASection";
 import TrustedClientSection from "@/components/TrustedClientsection";
+import Navbar from "@/components/Navbar";
 
 export default function Page() {
   return (
     <main>
+      <Navbar />
       <ConstructionHero />
       <TrustedClientSection  />
       <AboutMekark />

@@ -99,7 +99,7 @@ export default function ServicesSection() {
     const [active, setActive] = useState(0);
 
     return (
-        <section className="relative overflow-hidden bg-black py-20 lg:py-28">
+        <section id="services" className="relative overflow-hidden bg-black py-20 lg:py-28">
             {/* BG GLOW */}
             <div
                 className="

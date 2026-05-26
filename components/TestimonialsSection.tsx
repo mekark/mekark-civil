@@ -67,7 +67,7 @@ export default function TestimonialsSection() {
         }),
     };
     return (
-        <section className="relative w-full overflow-hidden bg-[#F8F8F8] px-5 py-16 sm:px-8 md:px-12 lg:px-16 xl:px-20 xl:py-28">
+        <section id="testimonials" className="relative w-full overflow-hidden bg-[#F8F8F8] px-5 py-16 sm:px-8 md:px-12 lg:px-16 xl:px-20 xl:py-28">
             <div className="mx-auto max-w-[1440px]">
                 {/* TOP TAG */}
                 <motion.div
