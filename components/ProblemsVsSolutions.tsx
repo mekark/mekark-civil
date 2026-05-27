@@ -4,25 +4,24 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 
 const problems = [
-  "Unreliable contractors missing deadlines",
-  "Hidden costs and budget overruns",
-  "Poor quality workmanship and structural issues",
-  "Lack of transparency in project progress",
-  "Multiple contractors creating confusion",
-  "Compliance and regulatory complications",
-  "No accountability for delays",
+  "Concrete quality inconsistency",
+  "Load optimization challenges",
+  "Rebar and consolidation errors",
+  "Weak waterproofing protection",
+  "Unsafe or inefficient formwork",
+  "Material cost fluctuations",
+  "Code and compliance risks",
 ];
 
 const solutions = [
-  "15+ years of on-time project delivery record",
-  "Fixed pricing with transparent cost breakdown",
-  "Quality-assured RCC structures with expert oversight",
-  "Regular site visits, photos, and progress reports",
-  "Single point of contact for complete turnkey solutions",
-  "Full regulatory compliance and permit management",
-  "Guaranteed completion dates with penalty clauses",
+  "Third-party QA with certified testing and compliance documentation",
+  "BIM-based structural analysis with optimized load planning",
+  "Precision formwork with vibration-assisted concrete consolidation",
+  "Multi-layer waterproofing systems with site verification",
+  "Modular formwork systems with professional safety audits",
+  "Transparent pricing with recycled aggregate integration",
+  "International-code compliant designs with permit management",
 ];
-
 export default function ProblemsVsSolutions() {
   return (
     <section className="relative w-full overflow-hidden bg-[#f5f5f5] py-16 sm:py-20 lg:py-24">

@@ -196,7 +196,7 @@ export default function ConstructionHero() {
                         />
 
                         <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/90">
-                            Mekark MEP & Utility Systems
+                            Structural & Civil Engineering Experts
                         </span>
                     </motion.div>
 
@@ -221,10 +221,10 @@ export default function ConstructionHero() {
                     >
                         Leading{" "}
                         <span className="text-[#E40015]">
-                            RCC & Civil
+                            Civil Construction
                         </span>
                         <br />
-                        Construction Contractor
+                         Contractor
                         <br />
                         in Chennai
                     </motion.h1>
@@ -340,36 +340,36 @@ export default function ConstructionHero() {
               gap-3
             "
                     >
-                        {/* CALL */}
-                        <motion.button
-                            whileHover={{ scale: 1.04 }}
-                            whileTap={{ scale: 0.96 }}
-                            className="
-                flex
-                items-center
-                justify-center
-                gap-2
+<motion.a
+  href={`tel:+${WHATSAPP_NUMBER}`}
+  whileHover={{ scale: 1.04 }}
+  whileTap={{ scale: 0.96 }}
+  className="
+    flex
+    items-center
+    justify-center
+    gap-2
 
-                rounded-md
-                border
-                border-white/10
+    rounded-md
+    border
+    border-white/10
 
-                bg-white
+    bg-white
 
-                px-6
-                py-4
+    px-6
+    py-4
 
-                text-sm
-                font-semibold
-                text-black
+    text-sm
+    font-semibold
+    text-black
 
-                shadow-lg
-                shadow-white/10
-              "
-                        >
-                            <Phone className="h-4 w-4" />
-                            Call Now
-                        </motion.button>
+    shadow-lg
+    shadow-white/10
+  "
+>
+  <Phone className="h-4 w-4" />
+  Call Now
+</motion.a>
 
                         <motion.a
                             whileHover={{ scale: 1.04 }}

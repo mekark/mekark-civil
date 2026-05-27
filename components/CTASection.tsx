@@ -410,7 +410,7 @@ export default function CTASection() {
                 whileTap={{
                   scale: 0.97,
                 }}
-                href="mailto:info@mekark.com"
+                href="mailto:admin@mekark.com"
                 className="
                   inline-flex
                   h-[52px]

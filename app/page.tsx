@@ -20,7 +20,7 @@ export default function Page() {
       <TrustedClientSection  />
       <AboutMekark />
       <WhyChooseRCC />
-      <ServicesSection />
+      {/* <ServicesSection /> */}
       <IndustriesSection />
       <WhyChooseMekark />
       <ProblemsVsSolutions />

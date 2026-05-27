@@ -5,12 +5,12 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 const features = [
-  "Avoid Construction Delays",
-  "Guarantee Structural Quality",
-  "Reduce Cost Overruns",
-  "Complete Turnkey Solutions",
-  "Expert Project Management",
-  "Compliance & Approvals",
+  "Precision Planning & Quantity Management",
+  "	Uncompromising Quality Standards",
+  "Safety-First Operations & Complete Transparency",
+  "Integrated Design & Build Methodology",
+  "In-House Architectural Design Expertise",
+  "Integrated MEP Engineering & Own Technical Team",
 ];
 
 export default function WhyChooseMekark() {
@@ -160,9 +160,9 @@ export default function WhyChooseMekark() {
                   lg:text-[48px]
                 "
               >
-                Why Factory{" "}
+                Why Industry{" "}
                 <span className="text-[#8B1E1E]">
-                  Owners & Builders
+                  Leaders
                 </span>{" "}
                 Choose Mekark
               </motion.h2>
@@ -274,18 +274,7 @@ export default function WhyChooseMekark() {
                       >
                         {item}
                       </h3>
-                      <p
-                        className="
-                          mt-[2px]
-                          text-[11px]
-                          font-semibold
-                          uppercase
-                          tracking-[0.16em]
-                          text-white/70
-                        "
-                      >
-                        Trusted Industrial Solution
-                      </p>
+
                     </div>
 
                     {/* RIGHT ARROW */}
