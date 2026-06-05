@@ -127,7 +127,9 @@ export default function CTASection() {
         throw new Error(payload?.message || "Unable to submit form.");
       }
 
-      window.location.href = THANK_YOU_URL;
+      // window.location.href = THANK_YOU_URL;
+      alert("Form Submitted Successfully");
+
     } catch (error) {
       console.error(error);
     }
