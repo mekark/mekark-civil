@@ -2,22 +2,18 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  Mail,
-  Phone,
-  MessageCircle,
-} from "lucide-react";
+import { ArrowUpRight, Mail, Phone, MessageCircle } from "lucide-react";
 import { useState } from "react";
 
 const THANK_YOU_URL = "https://civilconstruction.mekark.com/thank-you";
 const WHATSAPP_NUMBER = "919790924754";
+const FORM_ENDPOINT = "/api/enquiry-form";
 
 const WHATSAPP_MESSAGE =
-    "Hello Mekark, I would like to discuss my  industrial civil construction project.";
+  "Hello Mekark, I would like to discuss my  industrial civil construction project.";
 
 const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    WHATSAPP_MESSAGE
+  WHATSAPP_MESSAGE,
 )}`;
 
 const fadeUp = {
@@ -53,10 +49,8 @@ export default function CTASection() {
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement |
-      HTMLTextAreaElement |
-      HTMLSelectElement
-    >
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     setFormData({
       ...formData,
@@ -77,43 +71,66 @@ export default function CTASection() {
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone =
-        "Phone number is required";
-    } else if (
-      !/^[0-9]{10}$/.test(formData.phone)
-    ) {
-      newErrors.phone =
-        "Enter valid 10 digit number";
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Enter valid 10 digit number";
     }
 
     if (!formData.industry) {
-      newErrors.industry =
-        "Select industry type";
+      newErrors.industry = "Select industry type";
     }
 
     if (!formData.sqft) {
-      newErrors.sqft =
-        "Select sq.ft range";
+      newErrors.sqft = "Select sq.ft range";
     }
 
     setErrors(newErrors);
 
-    return (
-      Object.keys(newErrors).length === 0
-    );
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
-    setTimeout(() => {
-      window.location.href =
-        THANK_YOU_URL;
-    }, 1200);
+    try {
+      const sourceDomain =
+        typeof window !== "undefined" ? window.location.hostname : "";
+
+      const sourceName = "Civil Construction";
+
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          location: formData.location,
+          industry: formData.industry,
+          sqf: formData.sqft,
+          message: formData.message,
+          sourceName,
+          sourceDomain,
+        }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      console.log("Response:", payload);
+
+      if (!response.ok) {
+        throw new Error(payload?.message || "Unable to submit form.");
+      }
+
+      window.location.href = THANK_YOU_URL;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -291,10 +308,8 @@ export default function CTASection() {
                 sm:text-[17px]
               "
             >
-              Join 500+ satisfied clients who
-              chose Mekark for industrial,
-              warehouse & RCC construction
-              solutions across India.
+              Join 500+ satisfied clients who chose Mekark for industrial,
+              warehouse & RCC construction solutions across India.
             </p>
 
             {/* BUTTONS */}
@@ -344,18 +359,18 @@ export default function CTASection() {
               </motion.a>
 
               {/* WHATSAPP */}
-<motion.a
-  whileHover={{
-    scale: 1.03,
-    y: -2,
-  }}
-  whileTap={{
-    scale: 0.97,
-  }}
-  href={whatsappHref}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="
+              <motion.a
+                whileHover={{
+                  scale: 1.03,
+                  y: -2,
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="
     group
 
     inline-flex
@@ -387,19 +402,18 @@ export default function CTASection() {
     hover:bg-[#161616]
     hover:shadow-[0_12px_30px_rgba(37,211,102,0.18)]
   "
->
-  <MessageCircle
-    size={16}
-    className="
+              >
+                <MessageCircle
+                  size={16}
+                  className="
       transition-transform
       duration-300
 
       group-hover:scale-110
     "
-  />
-
-  WhatsApp
-</motion.a>
+                />
+                WhatsApp
+              </motion.a>
 
               {/* EMAIL */}
               <motion.a
@@ -438,10 +452,10 @@ export default function CTASection() {
                 <Mail size={16} />
                 Email Consultation
               </motion.a>
-                          {/* LOGOS */}
-            <div className="relative z-10 mt-6">
-              <p
-                className="
+              {/* LOGOS */}
+              <div className="relative z-10 mt-6">
+                <p
+                  className="
                   text-[10px]
                   font-bold
                   uppercase
@@ -449,12 +463,12 @@ export default function CTASection() {
 
                   text-[#8A8A8A]
                 "
-              >
-                Trusted By Industry Leaders
-              </p>
+                >
+                  Trusted By Industry Leaders
+                </p>
 
-              <div
-                className="
+                <div
+                  className="
                   mt-4
 
                   flex
@@ -462,20 +476,20 @@ export default function CTASection() {
                   items-center
                   gap-3
                 "
-              >
-                {[
-                  "/Images/Logos/kom.png",
-                  "/Images/Logos/sarvam.png",
-                  "/Images/Logos/vwu.png",
-                  "/Images/Logos/tvs.png",
-                ].map((logo, i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{
-                      y: -3,
-                      scale: 1.04,
-                    }}
-                    className="
+                >
+                  {[
+                    "/Images/Logos/kom.png",
+                    "/Images/Logos/sarvam.png",
+                    "/Images/Logos/vwu.png",
+                    "/Images/Logos/tvs.png",
+                  ].map((logo, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{
+                        y: -3,
+                        scale: 1.04,
+                      }}
+                      className="
                       flex
                       h-[52px]
                       w-[52px]
@@ -492,18 +506,18 @@ export default function CTASection() {
 
                       shadow-sm
                     "
-                  >
-                    <Image
-                      src={logo}
-                      alt="client"
-                      width={30}
-                      height={30}
-                      className="object-contain"
-                    />
-                  </motion.div>
-                ))}
+                    >
+                      <Image
+                        src={logo}
+                        alt="client"
+                        width={30}
+                        height={30}
+                        className="object-contain"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
               </div>
-            </div>
             </div>
           </motion.div>
 
@@ -623,10 +637,7 @@ export default function CTASection() {
               "
             >
               Get Your
-              <span className="text-[#E60F1A]">
-                {" "}
-                Free Project
-              </span>
+              <span className="text-[#E60F1A]"> Free Project</span>
               <br />
               Consultation
             </h3>
@@ -645,8 +656,7 @@ export default function CTASection() {
                 text-[#5A5A5A]
               "
             >
-              Talk with Mekark experts for
-              industrial, warehouse & RCC
+              Talk with Mekark experts for industrial, warehouse & RCC
               construction solutions.
             </p>
 
@@ -690,17 +700,16 @@ export default function CTASection() {
 
         focus:bg-white
 
-        ${errors.name
-                        ? "border-red-500"
-                        : "border-[#ECECEC] focus:border-[#E60F1A]"
-                      }
+        ${
+          errors.name
+            ? "border-red-500"
+            : "border-[#ECECEC] focus:border-[#E60F1A]"
+        }
       `}
                   />
 
                   {errors.name && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors.name}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errors.name}</p>
                   )}
                 </div>
 
@@ -748,6 +757,7 @@ export default function CTASection() {
                   <input
                     type="text"
                     name="phone"
+                    maxLength={10}
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="Phone Number*"
@@ -776,17 +786,16 @@ export default function CTASection() {
 
                       focus:bg-white
 
-                      ${errors.phone
-                        ? "border-red-500"
-                        : "border-[#ECECEC] focus:border-[#E60F1A]"
+                      ${
+                        errors.phone
+                          ? "border-red-500"
+                          : "border-[#ECECEC] focus:border-[#E60F1A]"
                       }
                     `}
                   />
 
                   {errors.phone && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors.phone}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
                   )}
                 </div>
 
@@ -855,15 +864,14 @@ export default function CTASection() {
 
                       focus:bg-white
 
-                      ${errors.industry
-                        ? "border-red-500"
-                        : "border-[#ECECEC] focus:border-[#E60F1A]"
+                      ${
+                        errors.industry
+                          ? "border-red-500"
+                          : "border-[#ECECEC] focus:border-[#E60F1A]"
                       }
                     `}
                   >
-                    <option value="">
-                      Select Industry Type*
-                    </option>
+                    <option value="">Select Industry Type*</option>
 
                     <option value="Warehouse Construction">
                       Warehouse Construction
@@ -873,9 +881,7 @@ export default function CTASection() {
                       Factory Construction
                     </option>
 
-                    <option value="Commercial RCC">
-                      Commercial RCC
-                    </option>
+                    <option value="Commercial RCC">Commercial RCC</option>
 
                     <option value="Industrial Building">
                       Industrial Building
@@ -918,49 +924,38 @@ export default function CTASection() {
 
                       focus:bg-white
 
-                      ${errors.sqft
-                        ? "border-red-500"
-                        : "border-[#ECECEC] focus:border-[#E60F1A]"
+                      ${
+                        errors.sqft
+                          ? "border-red-500"
+                          : "border-[#ECECEC] focus:border-[#E60F1A]"
                       }
                     `}
                   >
-                    <option value="">
-                      Select Sq.ft Requirement*
-                    </option>
+                    <option value="">Select Sq.ft Requirement*</option>
 
-                    <option value="10k - 20k Sq.ft">
-                      10k - 20k Sq.ft
-                    </option>
+                    <option value="10k - 20k Sq.ft">10k - 20k Sq.ft</option>
 
-                    <option value="20k - 50k Sq.ft">
-                      20k - 50k Sq.ft
-                    </option>
+                    <option value="20k - 50k Sq.ft">20k - 50k Sq.ft</option>
 
-                    <option value="50k+ Sq.ft">
-                      50k+ Sq.ft
-                    </option>
+                    <option value="50k+ Sq.ft">50k+ Sq.ft</option>
                   </select>
 
                   {errors.sqft && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors.sqft}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errors.sqft}</p>
                   )}
                 </div>
-
-
               </div>
 
-{/* LOCATION + MESSAGE */}
-<div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-  {/* LOCATION */}
-  <input
-    type="text"
-    name="location"
-    value={formData.location}
-    onChange={handleChange}
-    placeholder="Project Location"
-    className="
+              {/* LOCATION + MESSAGE */}
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {/* LOCATION */}
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Project Location"
+                  className="
       h-[54px]
       w-full
 
@@ -987,16 +982,16 @@ export default function CTASection() {
       focus:border-[#E60F1A]
       focus:bg-white
     "
-  />
+                />
 
-  {/* MESSAGE */}
-  <textarea
-    rows={1}
-    name="message"
-    value={formData.message}
-    onChange={handleChange}
-    placeholder="Tell us about your project..."
-    className="
+                {/* MESSAGE */}
+                <textarea
+                  rows={1}
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell us about your project..."
+                  className="
       h-[54px]
       w-full
 
@@ -1026,8 +1021,8 @@ export default function CTASection() {
       focus:border-[#E60F1A]
       focus:bg-white
     "
-  />
-</div>
+                />
+              </div>
 
               {/* SUBMIT */}
               <motion.button
@@ -1062,8 +1057,6 @@ export default function CTASection() {
                 Get Free Consultation →
               </motion.button>
             </form>
-
-
           </motion.div>
         </div>
       </motion.div>

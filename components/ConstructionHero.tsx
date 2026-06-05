@@ -3,13 +3,13 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import {
-    Phone,
-    MessageCircle,
-    Building2,
-    CheckCircle2,
-    Users,
-    BriefcaseBusiness,
-    Star,
+  Phone,
+  MessageCircle,
+  Building2,
+  CheckCircle2,
+  Users,
+  BriefcaseBusiness,
+  Star,
 } from "lucide-react";
 
 import CountUp from "@/components/Countup";
@@ -17,131 +17,164 @@ import { useState } from "react";
 
 const THANK_YOU_URL = "https://civilconstruction.mekark.com/thank-you";
 const WHATSAPP_NUMBER = "919790924754";
+const FORM_ENDPOINT = "/api/enquiry-form";
 
 const WHATSAPP_MESSAGE =
-    "Hello Mekark, I would like to discuss my  industrial civil construction project.";
+  "Hello Mekark, I would like to discuss my  industrial civil construction project.";
 
 const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    WHATSAPP_MESSAGE
+  WHATSAPP_MESSAGE,
 )}`;
 
 export default function ConstructionHero() {
-    const stats = [
-        {
-            icon: BriefcaseBusiness,
-            value: 15,
-            suffix: "+",
-            label: "YEARS OF EXPERIENCE",
-        },
-        {
-            icon: Building2,
-            value: 200,
-            suffix: "+",
-            label: "COMPLETED COMMERCIAL PROJECTS",
-        },
-        {
-            icon: CheckCircle2,
-            value: 100,
-            suffix: "%",
-            label: "ON-TIME DELIVERY GUARANTEE",
-        },
-        {
-            icon: Users,
-            value: 500,
-            suffix: "+",
-            label: "SATISFIED CLIENTS NATIONWIDE",
-        },
-    ];
+  const stats = [
+    {
+      icon: BriefcaseBusiness,
+      value: 15,
+      suffix: "+",
+      label: "YEARS OF EXPERIENCE",
+    },
+    {
+      icon: Building2,
+      value: 200,
+      suffix: "+",
+      label: "COMPLETED COMMERCIAL PROJECTS",
+    },
+    {
+      icon: CheckCircle2,
+      value: 100,
+      suffix: "%",
+      label: "ON-TIME DELIVERY GUARANTEE",
+    },
+    {
+      icon: Users,
+      value: 500,
+      suffix: "+",
+      label: "SATISFIED CLIENTS NATIONWIDE",
+    },
+  ];
 
-    const [formData, setFormData] = useState({
-        name: "",
-        company: "",
-        phone: "",
-        email: "",
-        location: "",
-        industry: "",
-        sqft: "",
-        message: "",
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    location: "",
+    industry: "",
+    sqft: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState<any>({});
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
 
-    const [errors, setErrors] = useState<any>({});
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
+  };
 
-    const handleChange = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+  const validateForm = () => {
+    let newErrors: any = {};
 
-        setErrors({
-            ...errors,
-            [e.target.name]: "",
-        });
-    };
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
 
-    const validateForm = () => {
-        let newErrors: any = {};
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Enter valid 10 digit number";
+    }
 
-        if (!formData.name.trim()) {
-            newErrors.name = "Name is required";
-        }
+    if (!formData.industry) {
+      newErrors.industry = "Select industry type";
+    }
 
-        if (!formData.phone.trim()) {
-            newErrors.phone = "Phone number is required";
-        } else if (!/^[0-9]{10}$/.test(formData.phone)) {
-            newErrors.phone = "Enter valid 10 digit number";
-        }
+    if (!formData.sqft) {
+      newErrors.sqft = "Select sq.ft range";
+    }
 
-        if (!formData.industry) {
-            newErrors.industry = "Select industry type";
-        }
+    setErrors(newErrors);
 
-        if (!formData.sqft) {
-            newErrors.sqft = "Select sq.ft range";
-        }
+    return Object.keys(newErrors).length === 0;
+  };
 
-        setErrors(newErrors);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        return Object.keys(newErrors).length === 0;
-    };
+    if (!validateForm()) return;
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    try {
+      const sourceDomain =
+        typeof window !== "undefined" ? window.location.hostname : "";
 
-        if (!validateForm()) return;
+      const sourceName = "Civil Construction";
 
-        setTimeout(() => {
-            window.location.href = THANK_YOU_URL;
-        }, 1200);
-    };
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          location: formData.location,
+          industry: formData.industry,
+          sqf: formData.sqft,
+          message: formData.message,
+          sourceName,
+          sourceDomain,
+        }),
+      });
 
-    return (
-        <section id="home" className="relative overflow-hidden bg-black text-white">
-            {/* BG */}
-            <div className="absolute inset-0">
-                <Image
-                    src="/Images/herobg.png"
-                    alt="Construction Building"
-                    fill
-                    priority
-                    className="object-cover object-center"
-                />
+      const payload = await response.json().catch(() => null);
 
-                {/* DARK */}
-                <div className="absolute inset-0 bg-black/15" />
+      console.log("Response:", payload);
 
-                {/* LEFT DARK */}
-                <div className="absolute inset-y-0 left-0 w-[-5%] bg-gradient-to-r from-black via-black/10 to-transparent" />
+      if (!response.ok) {
+        throw new Error(payload?.message || "Unable to submit form.");
+      }
 
+      window.location.href = THANK_YOU_URL;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-            </div>
+  return (
+    <section id="home" className="relative overflow-hidden bg-black text-white">
+      {/* BG */}
+      <div className="absolute inset-0">
+        <Image
+          src="/Images/herobg.png"
+          alt="Construction Building"
+          fill
+          priority
+          className="object-cover object-center"
+        />
 
-            {/* CONTENT */}
-            <div
-                className="
+        {/* DARK */}
+        <div className="absolute inset-0 bg-black/15" />
+
+        {/* LEFT DARK */}
+        <div className="absolute inset-y-0 left-0 w-[-5%] bg-gradient-to-r from-black via-black/10 to-transparent" />
+      </div>
+
+      {/* CONTENT */}
+      <div
+        className="
           relative
           z-10
           mx-auto
@@ -161,15 +194,15 @@ export default function ConstructionHero() {
           lg:gap-16
           lg:px-16
         "
-            >
-                {/* LEFT */}
-                <div className="max-w-3xl">
-                    {/* BADGE */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="
+      >
+        {/* LEFT */}
+        <div className="max-w-3xl">
+          {/* BADGE */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="
               mb-6
               inline-flex
               items-center
@@ -182,30 +215,30 @@ export default function ConstructionHero() {
               py-2
               backdrop-blur-sm
             "
-                    >
-                        <motion.div
-                            animate={{
-                                scale: [1, 1.15, 1],
-                            }}
-                            transition={{
-                                duration: 1.8,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                            }}
-                            className="h-3 w-3 rounded-full bg-red-600"
-                        />
+          >
+            <motion.div
+              animate={{
+                scale: [1, 1.15, 1],
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="h-3 w-3 rounded-full bg-red-600"
+            />
 
-                        <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/90">
-                            Structural & Civil Engineering Experts
-                        </span>
-                    </motion.div>
+            <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/90">
+              Structural & Civil Engineering Experts
+            </span>
+          </motion.div>
 
-                    {/* TITLE */}
-                    <motion.h1
-                        initial={{ opacity: 0, y: 45 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="
+          {/* TITLE */}
+          <motion.h1
+            initial={{ opacity: 0, y: 45 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="
               max-w-4xl
               font-manrope
               text-[42px]
@@ -218,23 +251,20 @@ export default function ConstructionHero() {
 
               lg:text-[62px]
             "
-                    >
-                        Leading{" "}
-                        <span className="text-[#E40015]">
-                            Civil Construction
-                        </span>
-                        <br />
-                         Contractor
-                        <br />
-                        in Chennai
-                    </motion.h1>
+          >
+            Leading <span className="text-[#E40015]">Civil Construction</span>
+            <br />
+            Contractor
+            <br />
+            in Chennai
+          </motion.h1>
 
-                    {/* DESC */}
-                    <motion.p
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.7 }}
-                        className="
+          {/* DESC */}
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.7 }}
+            className="
               mt-6
               max-w-2xl
               text-sm
@@ -246,16 +276,16 @@ export default function ConstructionHero() {
 
               lg:text-lg
             "
-                    >
-                        Mekark delivers comprehensive commercial RCC construction,
-                        industrial civil works, and turnkey building solutions for
-                        factories, retail complexes, and commercial infrastructure across
-                        Tamil Nadu and India.
-                    </motion.p>
+          >
+            Mekark delivers comprehensive commercial RCC construction,
+            industrial civil works, and turnkey building solutions for
+            factories, retail complexes, and commercial infrastructure across
+            Tamil Nadu and India.
+          </motion.p>
 
-                    {/* REVIEW */}
-                    <div
-                        className="
+          {/* REVIEW */}
+          <div
+            className="
               mt-10
 
               flex
@@ -274,77 +304,77 @@ export default function ConstructionHero() {
 
               backdrop-blur-xl
             "
-                    >
-                        {/* LOGOS */}
-                        <div className="flex -space-x-2">
-                            <Image
-                                src="/Images/Logos/kom.png"
-                                alt="Client"
-                                width={42}
-                                height={42}
-                                className="rounded-full border-2 border-white object-cover"
-                            />
+          >
+            {/* LOGOS */}
+            <div className="flex -space-x-2">
+              <Image
+                src="/Images/Logos/kom.png"
+                alt="Client"
+                width={42}
+                height={42}
+                className="rounded-full border-2 border-white object-cover"
+              />
 
-                            <Image
-                                src="/Images/Logos/sarvam.png"
-                                alt="Client"
-                                width={42}
-                                height={42}
-                                className="rounded-full border-2 border-white object-cover"
-                            />
+              <Image
+                src="/Images/Logos/sarvam.png"
+                alt="Client"
+                width={42}
+                height={42}
+                className="rounded-full border-2 border-white object-cover"
+              />
 
-                            <Image
-                                src="/Images/Logos/vwu.png"
-                                alt="Client"
-                                width={42}
-                                height={42}
-                                className="rounded-full border-2 border-white object-cover"
-                            />
-                        </div>
+              <Image
+                src="/Images/Logos/vwu.png"
+                alt="Client"
+                width={42}
+                height={42}
+                className="rounded-full border-2 border-white object-cover"
+              />
+            </div>
 
-                        {/* CONTENT */}
-                        <div>
-                            <div className="flex items-center gap-1">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <Star
-                                        key={star}
-                                        className="h-4 w-4 fill-[#FFB800] text-[#FFB800]"
-                                    />
-                                ))}
+            {/* CONTENT */}
+            <div>
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className="h-4 w-4 fill-[#FFB800] text-[#FFB800]"
+                  />
+                ))}
 
-                                <span className="ml-2 text-[18px] font-bold text-white">
-                                    4.7/5
-                                </span>
-                            </div>
+                <span className="ml-2 text-[18px] font-bold text-white">
+                  4.7/5
+                </span>
+              </div>
 
-                            <p className="mt-1 text-sm font-medium text-white/80">
-                                Trusted Client Rating
-                            </p>
+              <p className="mt-1 text-sm font-medium text-white/80">
+                Trusted Client Rating
+              </p>
 
-                            <p className="mt-0.5 text-xs text-white/60">
-                                500+ Successful Industrial Projects
-                            </p>
-                        </div>
-                    </div>
+              <p className="mt-0.5 text-xs text-white/60">
+                500+ Successful Industrial Projects
+              </p>
+            </div>
+          </div>
 
-                    {/* BUTTONS */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 25 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.7 }}
-                        className="
+          {/* BUTTONS */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
+            className="
               mt-10
               flex
               flex-row
               flex-wrap
               gap-3
             "
-                    >
-<motion.a
-  href={`tel:+${WHATSAPP_NUMBER}`}
-  whileHover={{ scale: 1.04 }}
-  whileTap={{ scale: 0.96 }}
-  className="
+          >
+            <motion.a
+              href={`tel:+${WHATSAPP_NUMBER}`}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="
     flex
     items-center
     justify-center
@@ -366,18 +396,18 @@ export default function ConstructionHero() {
     shadow-lg
     shadow-white/10
   "
->
-  <Phone className="h-4 w-4" />
-  Call Now
-</motion.a>
+            >
+              <Phone className="h-4 w-4" />
+              Call Now
+            </motion.a>
 
-                        <motion.a
-                            whileHover={{ scale: 1.04 }}
-                            whileTap={{ scale: 0.96 }}
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="
+            <motion.a
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
     group
 
     flex
@@ -407,9 +437,9 @@ export default function ConstructionHero() {
     hover:bg-[#161616]
     hover:shadow-[0_10px_30px_rgba(37,211,102,0.18)]
   "
-                        >
-                            <MessageCircle
-                                className="
+            >
+              <MessageCircle
+                className="
       h-4
       w-4
 
@@ -418,17 +448,16 @@ export default function ConstructionHero() {
 
       group-hover:scale-110
     "
-                            />
+              />
+              WhatsApp
+            </motion.a>
+          </motion.div>
+        </div>
 
-                            WhatsApp
-                        </motion.a>
-                    </motion.div>
-                </div>
-
-                {/* FORM */}
-                <div className="w-full max-w-[640px] lg:ml-auto">
-                    <div
-                        className="
+        {/* FORM */}
+        <div className="w-full max-w-[640px] lg:ml-auto">
+          <div
+            className="
               w-full
               rounded-[36px]
               bg-white
@@ -441,10 +470,10 @@ export default function ConstructionHero() {
 
               lg:p-10
             "
-                    >
-                        {/* TITLE */}
-                        <h3
-                            className="
+          >
+            {/* TITLE */}
+            <h3
+              className="
                 text-center
                 font-manrope
                 text-[32px]
@@ -456,28 +485,25 @@ export default function ConstructionHero() {
                 lg:text-[30px]
                 lg:leading-[54px]
               "
-                        >
-                            Request Your Project Blueprint
-                        </h3>
+            >
+              Request Your Project Blueprint
+            </h3>
 
-                        <p className="mt-3 text-center text-[15px] text-gray-500 lg:text-[13px]">
-                            Get a custom layout, cost range & 120-day timeline
-                        </p>
+            <p className="mt-3 text-center text-[15px] text-gray-500 lg:text-[13px]">
+              Get a custom layout, cost range & 120-day timeline
+            </p>
 
-                        {/* FORM */}
-                        <form
-                            onSubmit={handleSubmit}
-                            className="mt-8 space-y-4"
-                        >
-                            {/* NAME */}
-                            <div>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    placeholder="Enter Your Full Name*"
-                                    className="
+            {/* FORM */}
+            <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+              {/* NAME */}
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter Your Full Name*"
+                  className="
                     h-[54px]
                     w-full
                     rounded-[10px]
@@ -495,23 +521,21 @@ export default function ConstructionHero() {
                     focus:border-[#D90916]
                     focus:bg-white
                   "
-                                />
+                />
 
-                                {errors.name && (
-                                    <p className="mt-2 text-sm text-red-500">
-                                        {errors.name}
-                                    </p>
-                                )}
-                            </div>
+                {errors.name && (
+                  <p className="mt-2 text-sm text-red-500">{errors.name}</p>
+                )}
+              </div>
 
-                            {/* COMPANY */}
-                            <input
-                                type="text"
-                                name="company"
-                                value={formData.company}
-                                onChange={handleChange}
-                                placeholder="Enter Company Name"
-                                className="
+              {/* COMPANY */}
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="Enter Company Name"
+                className="
                   h-[54px]
                   w-full
                   rounded-[10px]
@@ -529,19 +553,20 @@ export default function ConstructionHero() {
                   focus:border-[#D90916]
                   focus:bg-white
                 "
-                            />
+              />
 
-                            {/* GRID */}
-                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                {/* PHONE */}
-                                <div>
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        placeholder="Enter Mobile Number*"
-                                        className="
+              {/* GRID */}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {/* PHONE */}
+                <div>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    maxLength={10}
+                    onChange={handleChange}
+                    placeholder="Enter Mobile Number*"
+                    className="
                       h-[54px]
                       w-full
                       rounded-[10px]
@@ -559,23 +584,21 @@ export default function ConstructionHero() {
                       focus:border-[#D90916]
                       focus:bg-white
                     "
-                                    />
+                  />
 
-                                    {errors.phone && (
-                                        <p className="mt-2 text-sm text-red-500">
-                                            {errors.phone}
-                                        </p>
-                                    )}
-                                </div>
+                  {errors.phone && (
+                    <p className="mt-2 text-sm text-red-500">{errors.phone}</p>
+                  )}
+                </div>
 
-                                {/* EMAIL */}
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    placeholder="Enter Email Address"
-                                    className="
+                {/* EMAIL */}
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter Email Address"
+                  className="
                     h-[54px]
                     w-full
                     rounded-[10px]
@@ -593,15 +616,15 @@ export default function ConstructionHero() {
                     focus:border-[#D90916]
                     focus:bg-white
                   "
-                                />
+                />
 
-                                {/* INDUSTRY */}
-                                <div>
-                                    <select
-                                        name="industry"
-                                        value={formData.industry}
-                                        onChange={handleChange}
-                                        className="
+                {/* INDUSTRY */}
+                <div>
+                  <select
+                    name="industry"
+                    value={formData.industry}
+                    onChange={handleChange}
+                    className="
                       h-[54px]
                       w-full
                       rounded-[10px]
@@ -618,41 +641,36 @@ export default function ConstructionHero() {
                       focus:border-[#D90916]
                       focus:bg-white
                     "
-                                    >
-                                        <option value="">
-                                            Select Industry Type*
-                                        </option>
+                  >
+                    <option value="">Select Industry Type*</option>
 
-                                        {[
-                                            "PEB + Civil Construction",
-                                            "Industrial Building Construction",
-                                            "Warehouse Construction",
-                                            "Factory Construction",
-                                            "RCC Structure Construction",
-                                        ].map((industry) => (
-                                            <option
-                                                key={industry}
-                                                value={industry}
-                                            >
-                                                {industry}
-                                            </option>
-                                        ))}
-                                    </select>
+                    {[
+                      "PEB + Civil Construction",
+                      "Industrial Building Construction",
+                      "Warehouse Construction",
+                      "Factory Construction",
+                      "RCC Structure Construction",
+                    ].map((industry) => (
+                      <option key={industry} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </select>
 
-                                    {errors.industry && (
-                                        <p className="mt-2 text-sm text-red-500">
-                                            {errors.industry}
-                                        </p>
-                                    )}
-                                </div>
+                  {errors.industry && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.industry}
+                    </p>
+                  )}
+                </div>
 
-                                {/* SQFT */}
-                                <div>
-                                    <select
-                                        name="sqft"
-                                        value={formData.sqft}
-                                        onChange={handleChange}
-                                        className="
+                {/* SQFT */}
+                <div>
+                  <select
+                    name="sqft"
+                    value={formData.sqft}
+                    onChange={handleChange}
+                    className="
                       h-[54px]
                       w-full
                       rounded-[10px]
@@ -669,41 +687,34 @@ export default function ConstructionHero() {
                       focus:border-[#D90916]
                       focus:bg-white
                     "
-                                    >
-                                        <option value="">
-                                            Select Sq.ft Requirement*
-                                        </option>
+                  >
+                    <option value="">Select Sq.ft Requirement*</option>
 
-                                        {[
-                                            "10,000 - 20,000 Sq.ft",
-                                            "20,000 - 30,000 Sq.ft",
-                                            "30,000 - 50,000 Sq.ft",
-                                            "50,000+ Sq.ft",
-                                        ].map((sqft) => (
-                                            <option
-                                                key={sqft}
-                                                value={sqft}
-                                            >
-                                                {sqft}
-                                            </option>
-                                        ))}
-                                    </select>
+                    {[
+                      "10,000 - 20,000 Sq.ft",
+                      "20,000 - 30,000 Sq.ft",
+                      "30,000 - 50,000 Sq.ft",
+                      "50,000+ Sq.ft",
+                    ].map((sqft) => (
+                      <option key={sqft} value={sqft}>
+                        {sqft}
+                      </option>
+                    ))}
+                  </select>
 
-                                    {errors.sqft && (
-                                        <p className="mt-2 text-sm text-red-500">
-                                            {errors.sqft}
-                                        </p>
-                                    )}
-                                </div>
+                  {errors.sqft && (
+                    <p className="mt-2 text-sm text-red-500">{errors.sqft}</p>
+                  )}
+                </div>
 
-                                {/* LOCATION */}
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={formData.location}
-                                    onChange={handleChange}
-                                    placeholder="Enter Project Location"
-                                    className="
+                {/* LOCATION */}
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  placeholder="Enter Project Location"
+                  className="
                     h-[54px]
                     w-full
                     rounded-[10px]
@@ -721,16 +732,16 @@ export default function ConstructionHero() {
                     focus:border-[#D90916]
                     focus:bg-white
                   "
-                                />
+                />
 
-                                {/* DETAILS */}
-                                <input
-                                    type="text"
-                                    name="details"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    placeholder="Enter Requirement Details"
-                                    className="
+                {/* DETAILS */}
+                <input
+                  type="text"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Enter Requirement Details"
+                  className="
                     h-[54px]
                     w-full
                     rounded-[10px]
@@ -748,13 +759,13 @@ export default function ConstructionHero() {
                     focus:border-[#D90916]
                     focus:bg-white
                   "
-                                />
-                            </div>
+                />
+              </div>
 
-                            {/* SUBMIT */}
-                            <button
-                                type="submit"
-                                className="
+              {/* SUBMIT */}
+              <button
+                type="submit"
+                className="
                   mt-3
                   h-[58px]
                   w-full
@@ -772,24 +783,23 @@ export default function ConstructionHero() {
 
                   hover:scale-[1.01]
                 "
-                            >
-                                Get My Free Quote →
-                            </button>
-                        </form>
+              >
+                Get My Free Quote →
+              </button>
+            </form>
 
-                        {/* FOOTER */}
-                        <p className="mt-5 text-center text-sm text-gray-400">
-                            100% Transparent Consultation with single point project
-                            support
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {/* FOOTER */}
+            <p className="mt-5 text-center text-sm text-gray-400">
+              100% Transparent Consultation with single point project support
+            </p>
+          </div>
+        </div>
+      </div>
 
-            {/* STATS */}
-            <div className="relative z-10 border-t border-white/10 bg-black/95 backdrop-blur-md">
-                <div
-                    className="
+      {/* STATS */}
+      <div className="relative z-10 border-t border-white/10 bg-black/95 backdrop-blur-md">
+        <div
+          className="
             mx-auto
             grid
             max-w-[1440px]
@@ -804,22 +814,22 @@ export default function ConstructionHero() {
             lg:grid-cols-4
             lg:divide-y-0
           "
-                >
-                    {stats.map((item, index) => {
-                        const Icon = item.icon;
+        >
+          {stats.map((item, index) => {
+            const Icon = item.icon;
 
-                        return (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 25 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{
-                                    duration: 0.5,
-                                    delay: index * 0.1,
-                                }}
-                                whileHover={{ y: -4 }}
-                                className="
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.1,
+                }}
+                whileHover={{ y: -4 }}
+                className="
                   flex
                   flex-col
                   items-center
@@ -831,27 +841,25 @@ export default function ConstructionHero() {
 
                   text-center
                 "
-                            >
-                                {/* TOP */}
-                                <div className="flex items-center gap-3">
-                                    <Icon className="h-7 w-7 text-red-600" />
+              >
+                {/* TOP */}
+                <div className="flex items-center gap-3">
+                  <Icon className="h-7 w-7 text-red-600" />
 
-                                    <h3 className="flex items-center text-3xl font-bold tracking-tight">
-                                        <CountUp
-                                            to={item.value}
-                                            duration={2.5}
-                                            className="tabular-nums"
-                                        />
+                  <h3 className="flex items-center text-3xl font-bold tracking-tight">
+                    <CountUp
+                      to={item.value}
+                      duration={2.5}
+                      className="tabular-nums"
+                    />
 
-                                        <span className="text-red-600">
-                                            {item.suffix}
-                                        </span>
-                                    </h3>
-                                </div>
+                    <span className="text-red-600">{item.suffix}</span>
+                  </h3>
+                </div>
 
-                                {/* LABEL */}
-                                <p
-                                    className="
+                {/* LABEL */}
+                <p
+                  className="
                     max-w-[180px]
                     text-[10px]
                     font-medium
@@ -859,14 +867,14 @@ export default function ConstructionHero() {
                     tracking-[0.25em]
                     text-white/45
                   "
-                                >
-                                    {item.label}
-                                </p>
-                            </motion.div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
-    );
+                >
+                  {item.label}
+                </p>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
