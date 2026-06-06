@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = [
     {
@@ -35,6 +35,19 @@ export default function Navbar() {
 
     const [active, setActive] =
         useState("Home");
+
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const onScroll = () => {
+            setScrolled(window.scrollY > 40);
+        };
+
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
 
     return (
         <header
@@ -74,14 +87,12 @@ lg:pt-5        "
                     transition={{
                         duration: 0.7,
                     }}
-                    className="
+                    className={`
             relative
 
             w-full
 
             h-[78px]
-
-            bg-transparent
 
             px-2
             sm:px-4
@@ -89,7 +100,17 @@ lg:pt-5        "
 
             flex
             items-center
-          "
+
+            transition-all
+            duration-300
+
+            lg:rounded-2xl
+
+            ${scrolled
+                            ? "lg:bg-white/95 lg:shadow-[0_8px_30px_rgba(0,0,0,0.08)] lg:backdrop-blur-md"
+                            : "bg-transparent"
+                        }
+          `}
                 >
                     {/* LOGO */}
                     <div className="shrink-0 z-10">
@@ -144,7 +165,9 @@ lg:pt-5        "
 
                   ${active === item.label
                                         ? "text-[#E40015]"
-                                        : "text-white/80 hover:text-white"
+                                        : scrolled
+                                          ? "text-gray-700 hover:text-black"
+                                          : "text-white/80 hover:text-white"
                                     }
                 `}
                             >
@@ -228,7 +251,7 @@ lg:pt-5        "
                             onClick={() =>
                                 setMobileMenu(!mobileMenu)
                             }
-                            className="
+                            className={`
                 lg:hidden
 
                 w-11
@@ -237,9 +260,6 @@ lg:pt-5        "
                 rounded-full
 
                 border
-                border-white/10
-
-                bg-white/10
 
                 backdrop-blur-md
 
@@ -247,8 +267,14 @@ lg:pt-5        "
                 items-center
                 justify-center
 
-                text-white
-              "
+                transition-all
+                duration-300
+
+                ${scrolled
+                                    ? "border-gray-200 bg-gray-100 text-gray-900"
+                                    : "border-white/10 bg-white/10 text-white"
+                                }
+              `}
                         >
                             {mobileMenu ? (
                                 <X size={20} />

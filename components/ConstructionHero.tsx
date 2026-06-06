@@ -185,14 +185,17 @@ export default function ConstructionHero() {
           gap-14
 
           px-5
-          py-16
+          pt-24
+          pb-16
 
           sm:px-8
+          sm:pt-28
 
           lg:grid-cols-[1fr_640px]
           lg:items-center
           lg:gap-16
           lg:px-16
+          lg:py-16
         "
       >
         {/* LEFT */}

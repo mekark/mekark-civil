@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import FloatingWhatsAppButton from "@/components/FloatingWhatsapp";
 
-import {
-  Manrope,
-  Space_Grotesk,
-} from "next/font/google";
+import { Manrope, Space_Grotesk } from "next/font/google";
 
 import Script from "next/script";
 
@@ -45,10 +42,7 @@ export default function RootLayout({
     >
       <head>
         {/* Google Tag Manager */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-        >
+        <Script id="gtm-script" strategy="afterInteractive">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];
             w[l].push({'gtm.start':
@@ -78,8 +72,27 @@ export default function RootLayout({
         </noscript>
 
         {children}
+        <Script
+          id="tawk-to"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+        var s1=document.createElement("script"),
+            s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/69fd7e65427c251c368c1e92/1jo33bfff';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+      })();
+    `,
+          }}
+        />
 
         <FloatingWhatsAppButton />
+
       </body>
     </html>
   );
