@@ -20,6 +20,7 @@ function resolveUpstreamOrigin(request: NextRequest) {
   if (forwardedHost) {
     return `${forwardedProto}://${forwardedHost}`;
   }
+  
 
   return new URL(request.url).origin;
 }
