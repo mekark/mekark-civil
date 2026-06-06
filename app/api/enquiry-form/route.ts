@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       resolveUpstreamOrigin(request);
 
     // FIRE & FORGET
-    fetch(UPSTREAM_ENDPOINT, {
+    const response = await fetch(UPSTREAM_ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,19 +53,30 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify(body),
       cache: "no-store",
-    }).catch((error) => {
-      console.error("Upstream error:", error);
+    });
+    console.log("FORM DATA:", body);
+
+    const responseText = await response.text();
+    
+    console.log("UPSTREAM STATUS:", response.status);
+    console.log("UPSTREAM RESPONSE:", responseText);
+    
+    if (!response.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Upstream failed",
+        },
+        {
+          status: 500,
+        },
+      );
+    }
+    
+    return NextResponse.json({
+      success: true,
     });
 
-    // RETURN IMMEDIATELY
-    return NextResponse.json(
-      {
-        success: true,
-      },
-      {
-        status: 200,
-      },
-    );
   } catch (error) {
     console.error("API route error:", error);
 
