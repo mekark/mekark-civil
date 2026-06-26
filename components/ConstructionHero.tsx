@@ -19,6 +19,20 @@ const THANK_YOU_URL = "https://civilconstruction.mekark.com/thank-you";
 const WHATSAPP_NUMBER = "919790924754";
 const FORM_ENDPOINT = "/api/enquiry-form";
 
+const START_TIMELINES = [
+  "Immediately",
+  "Within 1 Month",
+  "Within 3 Months",
+  "Planning for Future",
+];
+
+const BUDGETS = [
+  "Below ₹50 Lakhs",
+  "₹50 Lakhs – ₹1 Crore",
+  "₹1 Crore – ₹5 Crores",
+  "Above ₹5 Crores",
+];
+
 const WHATSAPP_MESSAGE =
   "Hello Mekark, I would like to discuss my  industrial civil construction project.";
 
@@ -62,6 +76,8 @@ export default function ConstructionHero() {
     location: "",
     industry: "",
     sqft: "",
+    startTimeline: "",
+    budget: "",
     message: "",
   });
 
@@ -104,6 +120,14 @@ export default function ConstructionHero() {
       newErrors.sqft = "Select sq.ft range";
     }
 
+    if (!formData.startTimeline) {
+      newErrors.startTimeline = "Please select a project start timeline";
+    }
+
+    if (!formData.budget) {
+      newErrors.budget = "Please select a project budget";
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -133,6 +157,8 @@ export default function ConstructionHero() {
           location: formData.location,
           industry: formData.industry,
           sqf: formData.sqft,
+          startTimeline: formData.startTimeline,
+          budget: formData.budget,
           message: formData.message,
           sourceName,
           sourceDomain,
@@ -707,6 +733,82 @@ export default function ConstructionHero() {
 
                   {errors.sqft && (
                     <p className="mt-2 text-sm text-red-500">{errors.sqft}</p>
+                  )}
+                </div>
+
+                {/* START TIMELINE */}
+                <div>
+                  <select
+                    name="startTimeline"
+                    value={formData.startTimeline}
+                    onChange={handleChange}
+                    className="
+                      h-[54px]
+                      w-full
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      outline-none
+                      transition-all
+                      duration-300
+                      focus:border-[#D90916]
+                      focus:bg-white
+                    "
+                  >
+                    <option value="">Project Start Timeline *</option>
+                    {START_TIMELINES.map((timeline) => (
+                      <option key={timeline} value={timeline}>
+                        {timeline}
+                      </option>
+                    ))}
+                  </select>
+
+                  {errors.startTimeline && (
+                    <p className="mt-2 text-sm text-red-500">
+                      {errors.startTimeline}
+                    </p>
+                  )}
+                </div>
+
+                {/* BUDGET */}
+                <div>
+                  <select
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    className="
+                      h-[54px]
+                      w-full
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      outline-none
+                      transition-all
+                      duration-300
+                      focus:border-[#D90916]
+                      focus:bg-white
+                    "
+                  >
+                    <option value="">Project Budget *</option>
+                    {BUDGETS.map((budget) => (
+                      <option key={budget} value={budget}>
+                        {budget}
+                      </option>
+                    ))}
+                  </select>
+
+                  {errors.budget && (
+                    <p className="mt-2 text-sm text-red-500">{errors.budget}</p>
                   )}
                 </div>
 
