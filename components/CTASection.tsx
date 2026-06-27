@@ -161,7 +161,7 @@ export default function CTASection() {
   };
 
   return (
-    <section className="bg-white px-5 py-16 sm:px-8 md:px-12 lg:px-16 xl:px-20 xl:py-28">
+    <section id="quote-form" className="scroll-mt-28 bg-white px-5 py-16 sm:px-8 md:px-12 lg:px-16 xl:px-20 xl:py-28">
       <motion.div
         initial={{
           opacity: 0,

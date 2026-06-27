@@ -4,23 +4,23 @@ import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
 
 const problems = [
-  "Concrete quality inconsistency",
-  "Load optimization challenges",
-  "Rebar and consolidation errors",
-  "Weak waterproofing protection",
-  "Unsafe or inefficient formwork",
-  "Material cost fluctuations",
-  "Code and compliance risks",
+  "High capital risk from inexperienced factory construction contractors",
+  "Execution gaps between design intent and on-site delivery",
+  "Delayed industrial projects affecting market expansion timelines",
+  "Fragmented contractor management increasing project risk",
+  "Infrastructure that fails to support long-term operational growth",
+  "Budget uncertainty throughout the construction lifecycle",
+  "Compliance, safety, and quality control concerns",
 ];
 
 const solutions = [
-  "Third-party QA with certified testing and compliance documentation",
-  "BIM-based structural analysis with optimized load planning",
-  "Precision formwork with vibration-assisted concrete consolidation",
-  "Multi-layer waterproofing systems with site verification",
-  "Modular formwork systems with professional safety audits",
-  "Transparent pricing with recycled aggregate integration",
-  "International-code compliant designs with permit management",
+  "Proven industrial civil construction expertise with reliable project delivery",
+  "Unified planning, engineering, and execution under one accountable team",
+  "Expert manufacturing facility and industrial development capabilities",
+  "Scalable industrial infrastructure construction for long-term growth",
+  "Budget transparency and schedule certainty through advanced project controls",
+  "Turnkey execution models that simplify stakeholder management",
+  "Facilities delivered to global quality and safety standards",
 ];
 export default function ProblemsVsSolutions() {
   return (
@@ -189,7 +189,7 @@ export default function ProblemsVsSolutions() {
                 text-[#53555B]
               "
             >
-              The Problem
+              The Challenges
             </div>
 
             {/* ITEMS */}

@@ -9,9 +9,9 @@ import {
 import {
   ShieldCheck,
   Layers3,
-  Flame,
+  Building2,
   BadgeDollarSign,
-  PencilRuler,
+  ClipboardCheck,
   Crosshair,
   ArrowUpRight,
 } from "lucide-react";
@@ -24,45 +24,45 @@ import ScrollReveal from "@/components/ScrollReveal";
 const features = [
   {
     id: "01",
-    title: "Superior Durability",
+    title: "Proven Industrial Construction Expertise",
     icon: ShieldCheck,
     description:
-      "RCC structures provide exceptional longevity, maintaining integrity for 50+ years with minimal maintenance. Perfect for commercial buildings that need to stand the test of time and protect your long-term investment.",
+      "As experienced industrial civil contractors, we deliver factory buildings, manufacturing facilities, and industrial infrastructure projects engineered for long-term performance and operational efficiency.",
   },
   {
     id: "02",
-    title: "High Load-Bearing Capacity",
+    title: "Built for Heavy Industrial Operations",
     icon: Layers3,
     description:
-      "RCC construction handles heavy industrial equipment, multi-storey loads, and dynamic forces—ideal for factories, warehouses, and commercial complexes requiring structural strength.",
+      "Our industrial building construction solutions are designed to support production equipment, warehousing systems, utility networks, and high-load industrial environments.",
   },
   {
     id: "03",
-    title: "Fire & Earthquake Resistance",
-    icon: Flame,
+    title: "Reliable Factory & Facility Development",
+    icon: Building2,
     description:
-      "RCC provides superior fire safety ratings and seismic resistance. Essential for industrial buildings and commercial infrastructure in Tamil Nadu and India.",
+      "From manufacturing plants to processing units, our factory construction contractors ensure safe, compliant, and future-ready facilities that meet industry-specific requirements.",
   },
   {
     id: "04",
-    title: "Cost-Effective Solution",
+    title: "Cost-Effective Project Execution",
     icon: BadgeDollarSign,
     description:
-      "RCC construction offers excellent cost-to-performance ratio. Lower operational costs and long-term durability make it ideal for commercial projects.",
+      "As a trusted industrial civil construction company, we optimize project planning, resource allocation, and execution to deliver maximum value without compromising quality.",
   },
   {
     id: "05",
-    title: "Design Flexibility",
-    icon: PencilRuler,
+    title: "Turnkey Construction Solutions",
+    icon: ClipboardCheck,
     description:
-      "RCC frame structures allow customized architectural designs—perfect for unique commercial spaces, retail complexes, office buildings, and industrial facilities.",
+      "Our team specializes in turnkey factory construction and complete industrial project delivery, managing every stage from planning and civil works to final handover.",
   },
   {
     id: "06",
-    title: "Precision Engineering",
+    title: "Advanced Engineering & Project Management",
     icon: Crosshair,
     description:
-      "Our RCC civil contractors use advanced engineering practices, structural quality control, and modern execution methods for flawless delivery.",
+      "Combining technical expertise with modern execution practices, our industrial turnkey contractors deliver manufacturing facilities and industrial developments with precision, quality, and on-time completion.",
   },
 ];
 
@@ -160,11 +160,10 @@ export default function WhyChooseRCC() {
               text-[#5A5656]
             "
           >
-            Reinforced Cement Concrete (RCC) is the
-            foundation of modern commercial
-            infrastructure. Here’s why leading
-            builders trust RCC construction for
-            their projects:
+            Mekark is a trusted partner for industrial civil construction,
+            factory building development, and turnkey project execution across
+            Chennai, Tamil Nadu, and India. Here’s why businesses choose us for
+            their industrial infrastructure projects:
           </motion.p>
         </div>
 

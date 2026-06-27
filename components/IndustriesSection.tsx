@@ -53,7 +53,7 @@ const industries = [
 
 export default function IndustriesSection() {
     return (
-        <section className="relative overflow-hidden bg-[#F7F7F8] py-20 lg:py-28">
+        <section id="services" className="relative overflow-hidden bg-[#F7F7F8] py-20 lg:py-28">
             {/* TOP GLOW */}
             <div
                 className="

@@ -355,7 +355,7 @@ lg:pt-5        "
 
                         {/* MOBILE CTA */}
                         <Link
-                            href="#quote"
+                            href="#quote-form"
                             onClick={() =>
                                 setMobileMenu(false)
                             }

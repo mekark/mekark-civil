@@ -36,6 +36,13 @@ const BUDGETS = [
 const WHATSAPP_MESSAGE =
   "Hello Mekark, I would like to discuss my  industrial civil construction project.";
 
+const HIGHLIGHTS = [
+  "450+ Industrial & Civil Construction Projects Delivered",
+  "Experienced Industrial Civil Contractors",
+  "End-to-End Project Execution",
+  "On-Time Delivery & Quality Assurance",
+];
+
 const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE,
 )}`;
@@ -44,7 +51,7 @@ export default function ConstructionHero() {
   const stats = [
     {
       icon: BriefcaseBusiness,
-      value: 15,
+      value: 18,
       suffix: "+",
       label: "YEARS OF EXPERIENCE",
     },
@@ -56,15 +63,15 @@ export default function ConstructionHero() {
     },
     {
       icon: CheckCircle2,
-      value: 100,
+      value: 97.8,
       suffix: "%",
       label: "ON-TIME DELIVERY GUARANTEE",
     },
     {
       icon: Users,
-      value: 500,
+      value: 400,
       suffix: "+",
-      label: "SATISFIED CLIENTS NATIONWIDE",
+      label: "SATISFIED CLIENTS ",
     },
   ];
 
@@ -211,17 +218,18 @@ export default function ConstructionHero() {
           gap-14
 
           px-5
-          pt-24
+          pt-32
           pb-16
 
           sm:px-8
-          sm:pt-28
+          sm:pt-36
 
           lg:grid-cols-[1fr_640px]
           lg:items-center
           lg:gap-16
           lg:px-16
-          lg:py-16
+          lg:pt-40
+          lg:pb-16
         "
       >
         {/* LEFT */}
@@ -258,7 +266,7 @@ export default function ConstructionHero() {
             />
 
             <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/90">
-              Structural & Civil Engineering Experts
+              INDUSTRIAL CIVIL CONSTRUCTION EXPERTS
             </span>
           </motion.div>
 
@@ -272,8 +280,8 @@ export default function ConstructionHero() {
               font-manrope
               text-[42px]
               font-bold
-              leading-[0.95]
-              tracking-[-2px]
+              leading-[1.05]
+              tracking-[-2.3px]
               text-white
 
               sm:text-[56px]
@@ -281,9 +289,9 @@ export default function ConstructionHero() {
               lg:text-[62px]
             "
           >
-            Leading <span className="text-[#E40015]">Civil Construction</span>
+            Leading Industrial <span className="text-[#E40015]">Civil Construction</span>
             <br />
-            Contractor
+            Company
             <br />
             in Chennai
           </motion.h1>
@@ -312,8 +320,35 @@ export default function ConstructionHero() {
             Tamil Nadu and India.
           </motion.p>
 
+          {/* HIGHLIGHTS */}
+          <motion.ul
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22, duration: 0.7 }}
+            className="mt-6 space-y-3"
+          >
+            {HIGHLIGHTS.map((item, index) => (
+              <motion.li
+                key={item}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.28 + index * 0.06, duration: 0.5 }}
+                className="flex items-start gap-2.5"
+              >
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#E40015]" />
+                <span className="text-sm font-medium text-white/90 sm:text-base">
+                  {item}
+                </span>
+              </motion.li>
+            ))}
+          </motion.ul>
+
           {/* REVIEW */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45, duration: 0.7 }}
+            whileHover={{ scale: 1.02 }}
             className="
               mt-10
 
@@ -384,13 +419,13 @@ export default function ConstructionHero() {
                 500+ Successful Industrial Projects
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* BUTTONS */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
             className="
               mt-10
               flex
@@ -484,8 +519,16 @@ export default function ConstructionHero() {
         </div>
 
         {/* FORM */}
-        <div className="w-full max-w-[640px] lg:ml-auto">
-          <div
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.15, duration: 0.8, ease: "easeOut" }}
+          className="w-full max-w-[640px] lg:ml-auto"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
             className="
               w-full
               rounded-[36px]
@@ -897,8 +940,8 @@ export default function ConstructionHero() {
             <p className="mt-5 text-center text-sm text-gray-400">
               100% Transparent Consultation with single point project support
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* STATS */}

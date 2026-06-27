@@ -8,51 +8,58 @@ import { useState } from "react";
 const faqs = [
   {
     question:
-      "What makes Mekark different from other commercial construction companies?",
+      "What makes Mekark different from other industrial civil construction companies?",
     answer:
-      "Mekark combines 15+ years of RCC construction expertise with professional project management. We specialize in industrial and commercial civil works with proven on-time delivery records, transparent pricing, and complete turnkey solutions.",
+      "Mekark is a trusted industrial civil construction company with expertise in industrial building construction, factory development, and infrastructure projects. We focus on engineering precision, transparent execution, and timely project delivery.",
   },
   {
     question:
-      "Can you handle large industrial and commercial projects?",
+      "Can you handle large-scale factory and industrial construction projects?",
     answer:
-      "Absolutely. We have successfully completed 200+ commercial projects ranging from small office buildings to large warehouses and industrial facilities.",
+      "Yes. As experienced industrial civil contractors and factory construction contractors, we execute manufacturing facilities, warehouses, industrial buildings, and large-scale infrastructure developments across India.",
+  },
+  {
+    question: "Do you provide turnkey factory construction services?",
+    answer:
+      "Yes. Our turnkey factory construction solutions cover planning, engineering, civil works, project management, and execution, ensuring seamless delivery from concept to handover.",
+  },
+  {
+    question: "Do you specialize in manufacturing facility construction?",
+    answer:
+      "Absolutely. As a leading manufacturing facility construction company, we develop production plants, assembly units, processing facilities, and industrial campuses tailored to operational requirements.",
+  },
+  {
+    question: "What types of industrial projects do you undertake?",
+    answer:
+      "We specialize in industrial facility construction, industrial factory construction, warehouses, utility buildings, commercial-industrial developments, and supporting infrastructure projects.",
+  },
+  {
+    question: "Do you provide industrial infrastructure construction services?",
+    answer:
+      "Yes. Our industrial infrastructure construction services include site development, internal roads, drainage systems, utility networks, foundations, and factory support infrastructure.",
+  },
+  {
+    question: "Why choose Mekark as your industrial turnkey contractor?",
+    answer:
+      "As experienced industrial turnkey contractors, we provide single-point accountability, efficient project management, quality execution, and predictable outcomes for industrial construction projects.",
   },
   {
     question:
-      "What is your pricing structure for RCC construction?",
+      "Do you undertake factory building construction projects across India?",
     answer:
-      "We provide transparent, fixed pricing with detailed cost breakdowns. No hidden charges. We offer competitive rates for commercial RCC construction.",
+      "Yes. We deliver factory building construction projects for manufacturers and industrial businesses across Chennai, Tamil Nadu, and major industrial hubs throughout India.",
   },
   {
     question:
-      "How do you ensure quality in RCC structure construction?",
+      "Do you provide industrial foundation and civil work services?",
     answer:
-      "We implement rigorous quality control measures including material testing, structural inspections, and independent certifications. Every RCC frame structure meets building codes.",
+      "Yes. Our team includes experienced industrial foundation contractors and industrial civil work contractors, delivering foundations, structural works, and critical civil infrastructure for industrial projects.",
   },
   {
     question:
-      "What is your project timeline for commercial buildings?",
+      "Do you provide RCC construction services for industrial buildings?",
     answer:
-      "Timeline depends on project scope. We provide detailed schedules during planning. Our track record shows consistent on-time delivery.",
-  },
-  {
-    question:
-      "Do you provide design services or only construction?",
-    answer:
-      "We offer complete design-and-build services. From architectural planning and structural design to final construction and handover.",
-  },
-  {
-    question:
-      "How do you handle regulatory approvals and permits?",
-    answer:
-      "We manage all regulatory compliance, building permits, and authority approvals. Our experienced team ensures your commercial project meets all legal requirements.",
-  },
-  {
-    question:
-      "Do you serve other locations or only Chennai and Tamil Nadu?",
-    answer:
-      "While based in Chennai, we have completed commercial RCC construction projects across Tamil Nadu and India. We are happy to discuss projects in your location.",
+      "Yes. As established RCC building contractors, RCC construction contractors, and industrial RCC building contractors, we deliver durable reinforced concrete structures for factories, warehouses, and industrial facilities.",
   },
 ];
 
@@ -171,7 +178,7 @@ export default function FAQSection() {
         </motion.div>
 
         {/* FAQ RIGHT */}
-        <div className="flex flex-col gap-4">
+        <div className="flex w-full max-w-[820px] flex-col gap-4 xl:ml-auto">
           {faqs.map((faq, index) => {
             const isOpen = active === index;
 
@@ -183,15 +190,19 @@ export default function FAQSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.15 }}
-                className="
+                className={`
                   overflow-hidden
                   rounded-[20px]
                   border
-                  border-[#E3E4E7]
                   bg-white
                   transition-all
                   duration-300
-                "
+                  ${
+                    isOpen
+                      ? "border-[#E60F1A]/30 shadow-[0_12px_30px_rgba(230,15,26,0.06)]"
+                      : "border-[#E3E4E7]"
+                  }
+                `}
               >
                 {/* HEADER */}
                 <button
@@ -225,10 +236,10 @@ export default function FAQSection() {
 
                     <h3
                       className="
-                        max-w-[560px]
+                        max-w-[640px]
                         text-[16px]
                         font-bold
-                        leading-[28px]
+                        leading-[27px]
                         tracking-[-0.45px]
                         text-[#101116]
 
@@ -267,10 +278,9 @@ export default function FAQSection() {
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
-                      initial={{
-                        height: 0,
-                        opacity: 0,
-                      }}
+                      initial={
+                        index === 0 ? false : { height: 0, opacity: 0 }
+                      }
                       animate={{
                         height: "auto",
                         opacity: 1,
@@ -288,9 +298,9 @@ export default function FAQSection() {
                       <div className="border-t border-[#E3E4E7] px-5 pb-6 pt-5 sm:px-7">
                         <p
                           className="
-                            max-w-[90%]
+                            max-w-[640px]
                             text-[15px]
-                            leading-[28px]
+                            leading-[27px]
                             text-[#53555B]
 
                             sm:text-[16px]

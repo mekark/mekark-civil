@@ -300,41 +300,7 @@ export default function WhyChooseMekark() {
                 transition={{ delay: 0.5, duration: 0.7 }}
                 className="mt-10"
               >
-                <button
-                  className="
-                    group
-                    relative
-                    overflow-hidden
-                    rounded-full
-                    bg-white
-                    px-8
-                    py-4
-                    text-sm
-                    font-semibold
-                    uppercase
-                    tracking-[0.18em]
-                    text-black
-                    transition-all
-                    duration-500
-                    hover:text-white
 
-                    lg:bg-black
-                    lg:text-white
-                    lg:hover:bg-white
-                    lg:hover:text-black
-                  "
-                >
-                  <span className="relative z-10">Start Your Project</span>
-                  <div
-                    className="
-                      absolute inset-0
-                      translate-y-full
-                      bg-black
-                      transition-transform duration-500
-                      group-hover:translate-y-0
-                    "
-                  />
-                </button>
               </motion.div>
             </div>
           </div>
