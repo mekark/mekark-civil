@@ -47,6 +47,10 @@ const fadeUp = {
   },
 };
 
+type FormErrors = Partial<
+  Record<"name" | "phone" | "industry" | "sqft" | "startTimeline" | "budget", string>
+>;
+
 export default function CTASection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -61,7 +65,8 @@ export default function CTASection() {
     message: "",
   });
 
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -80,7 +85,7 @@ export default function CTASection() {
   };
 
   const validateForm = () => {
-    let newErrors: any = {};
+    const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -116,9 +121,11 @@ export default function CTASection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (isSubmitting) return;
     if (!validateForm()) return;
 
     try {
+      setIsSubmitting(true);
       const sourceDomain =
         typeof window !== "undefined" ? window.location.hostname : "";
 
@@ -157,6 +164,8 @@ export default function CTASection() {
 
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1155,6 +1164,7 @@ export default function CTASection() {
               {/* SUBMIT */}
               <motion.button
                 type="submit"
+                disabled={isSubmitting}
                 whileHover={{
                   scale: 1.02,
                 }}
@@ -1180,9 +1190,11 @@ export default function CTASection() {
                   text-white
 
                   shadow-[0_16px_40px_rgba(230,15,26,0.35)]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-70
                 "
               >
-                Get Free Consultation →
+                {isSubmitting ? "Submitting..." : "Get Free Consultation →"}
               </motion.button>
             </form>
           </motion.div>

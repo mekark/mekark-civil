@@ -2,6 +2,49 @@ import { NextRequest, NextResponse } from "next/server";
 
 const UPSTREAM_ENDPOINT =
   "https://mekark-mail.onrender.com/api/enquiry-form";
+const DUPLICATE_WINDOW_MS = 60_000;
+const recentSubmissionCache = new Map<string, number>();
+
+type EnquiryPayload = {
+  name?: string;
+  phone?: string;
+  email?: string;
+  company?: string;
+  message?: string;
+};
+
+function normalizeValue(value: string | undefined) {
+  return (value || "").trim().toLowerCase();
+}
+
+function buildSubmissionFingerprint(body: EnquiryPayload) {
+  return [
+    normalizeValue(body.name),
+    normalizeValue(body.phone),
+    normalizeValue(body.email),
+    normalizeValue(body.company),
+    normalizeValue(body.message),
+  ].join("|");
+}
+
+function isLikelyDuplicateSubmission(fingerprint: string) {
+  const now = Date.now();
+
+  for (const [key, timestamp] of recentSubmissionCache.entries()) {
+    if (now - timestamp > DUPLICATE_WINDOW_MS) {
+      recentSubmissionCache.delete(key);
+    }
+  }
+
+  const previousTimestamp = recentSubmissionCache.get(fingerprint);
+
+  if (previousTimestamp && now - previousTimestamp <= DUPLICATE_WINDOW_MS) {
+    return true;
+  }
+
+  recentSubmissionCache.set(fingerprint, now);
+  return false;
+}
 
 function resolveUpstreamOrigin(request: NextRequest) {
   const directOrigin = request.headers.get("origin");
@@ -38,6 +81,14 @@ export async function POST(request: NextRequest) {
           status: 400,
         },
       );
+    }
+
+    const fingerprint = buildSubmissionFingerprint(body);
+    if (isLikelyDuplicateSubmission(fingerprint)) {
+      return NextResponse.json({
+        success: true,
+        deduplicated: true,
+      });
     }
 
     const upstreamOrigin =

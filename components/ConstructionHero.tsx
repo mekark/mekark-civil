@@ -43,6 +43,10 @@ const HIGHLIGHTS = [
   "On-Time Delivery & Quality Assurance",
 ];
 
+type FormErrors = Partial<
+  Record<"name" | "phone" | "industry" | "sqft" | "startTimeline" | "budget", string>
+>;
+
 const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE,
 )}`;
@@ -88,7 +92,8 @@ export default function ConstructionHero() {
     message: "",
   });
 
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -107,7 +112,7 @@ export default function ConstructionHero() {
   };
 
   const validateForm = () => {
-    let newErrors: any = {};
+    const newErrors: FormErrors = {};
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -143,9 +148,11 @@ export default function ConstructionHero() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (isSubmitting) return;
     if (!validateForm()) return;
 
     try {
+      setIsSubmitting(true);
       const sourceDomain =
         typeof window !== "undefined" ? window.location.hostname : "";
 
@@ -183,6 +190,8 @@ export default function ConstructionHero() {
       window.location.href = THANK_YOU_URL;
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -913,6 +922,7 @@ export default function ConstructionHero() {
               {/* SUBMIT */}
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="
                   mt-3
                   h-[58px]
@@ -930,9 +940,11 @@ export default function ConstructionHero() {
                   duration-300
 
                   hover:scale-[1.01]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-70
                 "
               >
-                Get My Free Quote →
+                {isSubmitting ? "Submitting..." : "Get My Free Quote →"}
               </button>
             </form>
 
